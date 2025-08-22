@@ -37,6 +37,7 @@ type Config struct {
 	BoxDir              string        `mapstructure:"box_dir"`
 	Version             string        `mapstructure:"version"`
 	ACL                 string        `mapstructure:"acl"`
+	Endpoint            string 		  `mapstructure:"endpoint"`
 	CredentialFile      string        `mapstructure:"credentials"`
 	CredentialProfile   string        `mapstructure:"profile"`
 	AccessKey           string        `mapstructure:"access_key_id"`
@@ -126,10 +127,17 @@ func (p *PostProcessor) Configure(raws ...interface{}) error {
 		cred = credentials.NewCredentials(&credentials.EnvProvider{})
 	}
 
-	p.session = session.New(&aws.Config{
-		Region:      aws.String(p.config.Region),
+	awsCfg := &aws.Config{
+        Region: aws.String(p.config.Region),
 		Credentials: cred,
-	})
+    }
+
+	if p.config.Endpoint != "" {
+        awsCfg.Endpoint = aws.String(p.config.Endpoint)
+        awsCfg.S3ForcePathStyle = aws.Bool(true) // required for many S3-compatible services
+    }
+
+	p.session = session.New(awsCfg)
 
 	p.s3 = s3.New(p.session)
 

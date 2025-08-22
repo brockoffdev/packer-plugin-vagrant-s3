@@ -17,6 +17,7 @@ type FlatConfig struct {
 	BoxDir              *string           `mapstructure:"box_dir" cty:"box_dir"`
 	Version             *string           `mapstructure:"version" cty:"version"`
 	ACL                 *string           `mapstructure:"acl" cty:"acl"`
+	Endpoint            *string 		  `mapstructure:"endpoint" cty:"endpoint"`
 	CredentialFile      *string           `mapstructure:"credentials" cty:"credentials"`
 	CredentialProfile   *string           `mapstructure:"profile" cty:"profile"`
 	AccessKey           *string           `mapstructure:"access_key_id" cty:"access_key_id"`
@@ -55,6 +56,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"box_dir":                    &hcldec.AttrSpec{Name: "box_dir", Type: cty.String, Required: false},
 		"version":                    &hcldec.AttrSpec{Name: "version", Type: cty.String, Required: false},
 		"acl":                        &hcldec.AttrSpec{Name: "acl", Type: cty.String, Required: false},
+		"endpoint":                   &hcldec.AttrSpec{Name: "endpoint", Type: cty.String, Required: false},
 		"credentials":                &hcldec.AttrSpec{Name: "credentials", Type: cty.String, Required: false},
 		"profile":                    &hcldec.AttrSpec{Name: "profile", Type: cty.String, Required: false},
 		"access_key_id":              &hcldec.AttrSpec{Name: "access_key_id", Type: cty.String, Required: false},
